@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<title>Farbpalette</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+    }
+    .section {
+        margin-bottom: 20px;
+    }
+    .section h2 {
+        margin-left: 15px;
+        
+    }
+    .color {
+        margin: 15px;
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+    }
+    .color-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        display: block;
+        position: relative;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .color-circle:hover {
+        transform: scale(1.1);
+    }
+    .color-info {
+        font-size: 0.9em;
+    }
+    #toast {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 17px;
+    }
+    #toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein {
+        from {bottom: 0; opacity: 0;} 
+        to {bottom: 30px; opacity: 1;}
+    }
+    @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
+    input[type="range"] {
+    width: 50%;  /* Slider Breite auf 50% setzen */
+}
+
+.dynamic-text {
+    transition: color 0.3s; /* Weiche Übergänge für Textfarbe */
+}
+
+</style>
+</head>
+<body>
+<script>
+function luminance(r, g, b) {
+    var a = [r, g, b].map(function(v) {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+
+function copyToClipboard(hex, color) {
+    navigator.clipboard.writeText(hex);
+    const toast = document.getElementById("toast");
+    toast.textContent = "Kopiert: " + hex;
+    toast.style.backgroundColor = color;
+    // Berechnet, ob der Text weiß oder schwarz sein sollte
+    const rgb = color.match(/\w\w/g).map(x => parseInt(x, 16));
+    const brightness = luminance(rgb[0], rgb[1], rgb[2]);
+    toast.style.color = (brightness < 0.5) ? '#FFF' : '#333';
+    toast.className = "show";
+    setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+}
+function adjustBackground(value) {
+    var hexValue = parseInt(value).toString(16);
+    hexValue = hexValue.length < 2 ? '0' + hexValue : hexValue;
+    var bgColor = '#' + hexValue + hexValue + hexValue;
+    document.body.style.backgroundColor = bgColor;
+    
+    // Invertiere die Textfarbe basierend auf dem Sliderwert
+    var textColor = parseInt(value) < 128 ? '#ffffff' : '#000000'; // Wechselt bei weniger als 50% zu weißem Text
+    var textElements = document.querySelectorAll('.dynamic-text');
+    textElements.forEach(function(element) {
+        element.style.color = textColor;
+    });
+}
+
+</script>
+<div id="toast"></div>
+<div class="color-info dynamic-text">
+<div class="section">
+<h2>Primärfarben</h2>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#5B585A', '#5B585A')" style="background-color: #5B585A;"></div>
+<div class="color-info">
+            Hex: #5B585A<br/>
+            RGB: 91, 88, 90
+        </div>
+</div>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#2A4235', '#2A4235')" style="background-color: #2A4235;"></div>
+<div class="color-info">
+            Hex: #2A4235<br/>
+            RGB: 42, 66, 53
+        </div>
+</div>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#78B177', '#78B177')" style="background-color: #78B177;"></div>
+<div class="color-info">
+            Hex: #78B177<br/>
+            RGB: 120, 177, 119
+        </div>
+</div>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#4C7E4E', '#4C7E4E')" style="background-color: #4C7E4E;"></div>
+<div class="color-info">
+            Hex: #4C7E4E<br/>
+            RGB: 76, 126, 78
+        </div>
+</div>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#F6EBF3', '#F6EBF3')" style="background-color: #F6EBF3;"></div>
+<div class="color-info">
+            Hex: #F6EBF3<br/>
+            RGB: 246, 235, 243
+        </div>
+</div>
+</div>
+<div class="section">
+<h2>Signal-Hervorhebungsfarben</h2>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#C9507B', '#C9507B')" style="background-color: #C9507B;"></div>
+<div class="color-info">
+            Hex: #C9507B<br/>
+            RGB: 201, 80, 123
+        </div>
+</div>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#6B2E44', '#6B2E44')" style="background-color: #6B2E44;"></div>
+<div class="color-info">
+            Hex: #6B2E44<br/>
+            RGB: 107, 46, 68
+        </div>
+</div>
+</div>
+<div class="section">
+<h2>Sekundärfarben</h2>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#A8B190', '#A8B190')" style="background-color: #A8B190;"></div>
+<div class="color-info">
+            Hex: #A8B190<br/>
+            RGB: 168, 177, 144
+        </div>
+</div>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#E5EAD2', '#E5EAD2')" style="background-color: #E5EAD2;"></div>
+<div class="color-info">
+            Hex: #E5EAD2<br/>
+            RGB: 229, 234, 210
+        </div>
+</div>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#907194', '#907194')" style="background-color: #907194;"></div>
+<div class="color-info">
+            Hex: #907194<br/>
+            RGB: 144, 113, 148
+        </div>
+</div>
+</div>
+<div class="section">
+<h2>Extra</h2>
+<div class="color">
+<div class="color-circle" onclick="copyToClipboard('#FAD0B0', '#FAD0B0')" style="background-color: #FAD0B0;"></div>
+<div class="color-info">
+        Hex: #FAD0B0<br/>
+        RGB: 250, 208, 176
+        </div>
+</div>
+<div class="section">
+<h2>Hintergrund Dimmer</h2>
+<input id="bg-dimmer" max="255" min="0" oninput="adjustBackground(this.value)" style="width: 100%;" type="range" value="255"/>
+</div>
+</div>
+</div></body>
+</html>

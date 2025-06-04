@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Phantomcrew Farbpalette</title>
+<style>
+    body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        transition: background-color 0.4s;
+        font-family: 'Arial', sans-serif;
+	color: white; 
+	text-align: center;
+
+    }
+    .color-circle {
+        width: 100px;
+        height: 100px;
+        margin: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0; /* Initial font size is 0 to hide text */
+        cursor: pointer;
+        transition: transform 0.6s, font-size 0.3s;
+    }
+    .color-circle:hover, .color-circle.active {
+        transform: scale(1.8);
+         font-size: 8px; /* Show text on hover or when active */              
+    }
+    #notification {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #f0f0f0;
+        color: #333;
+        padding: 10px;
+        border-radius: 10px;
+        display: none;
+        z-index: 1000;
+    }
+</style>
+</head>
+<body>
+<div id="notification"></div>
+<div class="color-circle" style="background-color: #000436;" title="Phantomblau">Phantomblau <br>#000436</div>
+<div class="color-circle" style="background-color: #FF5050;" title="Phantomrot">Phantomrot <br>#FF5050</div>
+
+<div class="color-circle" style="background-color: #101560;" title="Mitternachtsbrokat">Mitternachtsbrokat <br>#101560</div>
+<div class="color-circle" style="background-color: #2E348B;" title="Königsgeheimnis">Königsgeheimnis<br>#2E348B</div>
+<div class="color-circle" style="background-color: #5B61B5;" title="Saphirflüsterer">Saphirflüsterer <br>#5B61B5</div>
+<div class="color-circle" style="background-color: #959AE0;" title="Nebelblau">Nebelblau <br>#959AE0</div>
+<div class="color-circle" style="background-color: #D4D7FF;" title="Gespensterhauch">Gespensterhauch <br>#D4D7FF</div>
+
+<div class="color-circle" style="background-color: #D56565;" title="Zimtglut">Zimtglut<br>#D56565</div>
+<div class="color-circle" style="background-color: #AA6D6D;" title="Tonkrümel">Tonkrümel<br>#AA6D6D</div>
+<div class="color-circle" style="background-color: #554646;" title="Dunkeltrüffel">Dunkeltrüffel<br>#554646</div>
+<div class="color-circle" style="background-color: #332121;" title="Kaffeeschatten">Kaffeeschatten<br>#332121</div>
+
+<div class="color-circle" style="background-color: #88FF4F;" title="Limettenspritzer">Limettenspritzer<br>#88FF4F</div>
+<div class="color-circle" style="background-color: #AA806D;" title="Sandsteinschimmer">Sandsteinschimmer<br>#AA806D</div>
+<div class="color-circle" style="background-color: #676980;" title="Dämmernebel">Dämmernebel<br>#676980</div>
+<div class="color-circle" style="background-color: #6F8067;" title="Moosgeflüster">Moosgeflüster<br>#6F8067</div>
+
+<div class="color-circle" style="background-color: #1D2375;" title="Tiefes Indigo">Tiefes Indigo<br>#1D2375</div>
+<div class="color-circle" style="background-color: #E0D095;" title="Goldener Nebel">Goldener Nebel<br>#E0D095</div>
+<div class="color-circle" style="background-color: #8B772E;" title="Bernsteinherbst">Bernsteinherbst<br>#8B772E</div>
+<div class="color-circle" style="background-color: #362A00;" title="Dunkle Umarmung">Dunkle Umarmung<br>#362A00</div>
+
+<div class="color-circle" style="background-color: #BF6B6B;" title="Rosenhauch">Rosenhauch<br>#BF6B6B</div>
+<div class="color-circle" style="background-color: #806767;" title="Erdwärme">Erdwärme<br>#806767</div>
+<div class="color-circle" style="background-color: #46554A;" title="Waldtau">Waldtau<br>#46554A</div>
+<div class="color-circle" style="background-color: #6DAA7F;" title="Frisches Laub">Frisches Laub<br>#6DAA7F</div>
+<div class="color-circle" style="background-color: #4FFF81;" title="Frühlingsneuerung">Frühlingsneuerung<br>#4FFF81</div>
+
+<div class="color-circle" style="background-color: #431515;" title="Burgundergrund">Burgundergrund<br>#431515</div>
+<div class="color-circle" style="background-color: #651F1F;" title="Rostroter Rätsel">Rostroter Rätsel<br>#651F1F</div>
+<div class="color-circle" style="background-color: #872A2A;" title="Korallenflamme">Korallenflamme<br>#872A2A</div>
+<div class="color-circle" style="background-color: #CB3F3F;" title="Feuerlichtschein">Feuerlichtschein<br>#CB3F3F</div>
+<div class="color-circle" style="background-color: #D44242;" title="Kirschglut">Kirschglut<br>#D44242</div>
+
+<div class="color-circle" style="background-color: #151843;" title="Sternennacht">Sternennacht<br>#151843</div>
+<div class="color-circle" style="background-color: #1F2465;" title="Tiefseeblau">Tiefseeblau<br>#1F2465</div>
+<div class="color-circle" style="background-color: #2A3087;" title="Kosmisches Blau">Kosmisches Blau<br>#2A3087</div>
+<div class="color-circle" style="background-color: #3F48CB;" title="Saphirblitz">Saphirblitz<br>#3F48CB</div>
+<div class="color-circle" style="background-color: #424BD4;" title="Königsfunkeln">Königsfunkeln<br>#424BD4</div>
+
+
+<script>
+    // Function to show and hide notification
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000); // Notification disappears after 3000 milliseconds (3 seconds)
+    }
+
+    // Adding event listeners to color circles
+    document.querySelectorAll('.color-circle').forEach(function(circle) {
+        circle.addEventListener('click', function() {
+            // Remove active class from all circles and reset font size when another circle is clicked
+            document.querySelectorAll('.color-circle').forEach(function(c) {
+                c.classList.remove('active');
+            });
+
+            // Add active class to clicked circle
+            circle.classList.add('active');
+
+            // Extract HEX color code directly from the style attribute
+            const style = circle.getAttribute('style');
+            const colorHex = style.match(/#[0-9A-Fa-f]{6}/)[0]; // Match the HEX color code
+            
+            // Change the background color of the body to the clicked color
+            document.body.style.backgroundColor = colorHex;
+
+            // Copy the HEX color code to clipboard
+            navigator.clipboard.writeText(colorHex).then(() => {
+                // Show notification when copy is successful
+                showNotification('Farbe ' + colorHex + ' erfolgreich kopiert!');
+            }, () => {
+                // Error handling if copy fails
+                showNotification('Fehler beim Kopieren der Farbe!');
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>
