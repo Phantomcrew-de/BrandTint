@@ -56,9 +56,10 @@ Originally developed for **Phantomcrew**'s corporate identity needs, now open fo
 
 ---
 
-### 📄 License
+## 📄 License
 
-MIT License — free to use, modify, and share.
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0).  
+You are free to use, modify, and distribute it — as long as you share your changes under the same license.
 
 ### 🤝 Author
 
