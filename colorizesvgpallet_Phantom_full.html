@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>⇒ Farbpalette</title>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var colorDisplayContainer = document.createElement('div');
+    colorDisplayContainer.style.position = 'fixed';
+    colorDisplayContainer.style.top = '0px';
+    colorDisplayContainer.style.left = '5px';
+    colorDisplayContainer.style.zIndex = '-1';
+    colorDisplayContainer.style.textAlign = 'center';
+
+    var colorLabel = document.createElement('div');
+    
+    colorDisplayContainer.appendChild(colorLabel);
+
+    var colorCircle = document.createElement('div');
+    colorCircle.style.width = '40px';
+    colorCircle.style.height = '40px';
+    colorCircle.style.borderRadius = '40%';
+    colorCircle.style.border = '1px solid #ccc';
+    colorCircle.style.marginTop = '5px';
+    colorDisplayContainer.appendChild(colorCircle);
+
+    document.body.appendChild(colorDisplayContainer);
+
+    function updateColorCircle() {
+        colorCircle.style.backgroundColor = selectedColor;
+    }
+
+    var selectedColor = 'rgb(255, 255, 255)'; // Initialfarbe
+    updateColorCircle();
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('color-circle')) {
+            selectedColor = window.getComputedStyle(event.target).backgroundColor;
+            updateColorCircle();
+        } else if (event.target.tagName === 'BUTTON') {
+            updateColorCircle();
+        }
+    });
+
+    // Event-Listener für den "Kopieren"-Button
+    var copyButton = document.getElementById('copyButton');
+    if (copyButton) {
+        copyButton.addEventListener('click', function() {
+            var hexOutputField = document.getElementById('hexOutput');
+            if (hexOutputField) {
+                selectedColor = hexOutputField.value; // Nimmt den Wert aus dem hexOutput-Feld
+                updateColorCircle(); // Aktualisiert die Kreisfarbe
+            }
+        });
+    }
+});
+</script>
+<style>
+button {
+    background-color: #467751; /* Green background */
+    border: none; /* No borders */
+    color: white; /* White text */
+    padding: 10px 22px; /* Padding inside the button */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* No underline on the text */
+    display: inline-block; /* Allows setting width and height */
+    font-size: 12px; /* Default text size */
+    margin: 4px 2px; /* Margin around buttons */
+    transition-duration: 0.4s; /* Smooth transition for hover effect */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 25px; /* Rounded corners */
+    box-shadow: 0 3px #999; /* Shadow for 3D effect */
+}
+
+button:hover {
+    background-color: #2C3E2B; /* Darker shade of green on hover */
+    box-shadow: 0 2px #666; /* Shadow effect on hover */
+    transform: translateY(4px); /* Moves the button down on hover */
+}
+
+button:active {
+    background-color: #6FA771; /* Darker shade of green on active/click */
+    box-shadow: 0 1px #666; /* Less shadow when clicked */
+    transform: translateY(6px); /* Button appears pressed when clicked */
+}
+.hexInput {
+    width: 80px; /* Breite der Hex-Eingabefelder */
+    display: inline-block;
+    border-radius: 25px; /* Abgerundete Ecken */
+    border: 1px solid #ccc; /* Grauer Rand für bessere Sichtbarkeit */
+    padding: 5px 10px; /* Innerer Abstand */
+    text-align: center; /* Zentriert den Text innerhalb des Eingabefelds */
+}
+input[type="text"] {
+    width: 80px; /* Standardbreite für Textfelder */
+    display: inline-block;
+    border-radius: 25px; /* Abgerundete Ecken für alle Textfelder */
+    border: 1px solid #ccc; /* Einheitlicher Rand für bessere Sichtbarkeit */
+    padding: 5px 10px; /* Innerer Abstand für bessere Lesbarkeit */
+    text-align: center; /* Zentriert den Text innerhalb des Feldes */
+}
+
+
+    table {
+        width: 100%;
+        height: 100%;
+        table-layout: fixed; /* Verhindert, dass Zellinhalte die Zellgrößen beeinflussen */
+        border-collapse: collapse; /* Entfernt Abstände zwischen den Zellen */
+    }
+    td {
+        width: 50%; /* Jede Zelle nimmt genau die Hälfte der Tischbreite ein */
+        vertical-align: top; /* Stellt sicher, dass der Inhalt an der Oberseite der Zelle beginnt */
+        overflow: auto; /* Ermöglicht Scrollen innerhalb der Zelle, wenn der Inhalt zu groß ist */
+    }
+        body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+    }
+    .section {
+        margin-bottom: 20px;
+    }
+    .section h2 {
+        margin-left: 15px;
+        
+    }
+    .color {
+        margin: 15px;
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+    }
+    .color-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        display: block;
+        position: relative;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .color-circle:hover {
+        transform: scale(1.1);
+    }
+    .color-info {
+        font-size: 0.9em;
+    }
+    #toast {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 17px;
+    }
+    #toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein {
+        from {bottom: 0; opacity: 0;} 
+        to {bottom: 30px; opacity: 1;}
+    }
+    @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
+    input[type="range"] {
+    width: 50%;  /* Slider Breite auf 50% setzen */
+}
+
+.dynamic-text {
+    transition: color 0.3s; /* Weiche Übergänge für Textfarbe */
+}
+
+  #colorList {
+    margin-bottom: 20px;
+  }
+  .color-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .color-item input[type="text"], .color-item input[type="color"] {
+    margin-left: 10px;
+  }
+
+</style>
+
+
+<script>
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Ihre existierenden Initialisierungscodes hier...
+
+    updateContrast(); // Führt die Kontrastberechnung direkt beim Laden der Seite aus
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var slider = document.getElementById('bg-dimmer');
+    var initialValue = getCookie('dimmerValue'); // Lade den gespeicherten Wert aus den Cookies
+    var fullValue = 255; // Vollwert entspricht 100%
+    var duration = 500; // Gesamtdauer der Animation in Millisekunden
+    var steps = 30; // Anzahl der Schritte in der Animation
+    var stepTime = duration / steps; // Zeit pro Schritt
+
+    initialValue = initialValue ? parseInt(initialValue) : fullValue; // Falls kein Cookie-Wert vorhanden, setze auf 100%
+
+    slider.value = fullValue; // Setze den Slider vorübergehend auf 100%
+    var targetValue = initialValue;
+
+    if (initialValue != fullValue) { // Nur animieren, wenn der Zielwert nicht 100% ist
+        var step = (fullValue - targetValue) / steps; // Berechne die Schrittgröße
+        animateDimming(fullValue);
+    } else {
+        adjustBackground(initialValue); // Verwende direkt den aktuellen Wert, wenn keine Animation benötigt wird
+    }
+
+    function animateDimming(currentValue) {
+        if (currentValue > targetValue) {
+            slider.value = currentValue;
+            adjustBackground(currentValue);
+            setTimeout(function() {
+                animateDimming(currentValue - step);
+            }, stepTime);
+        } else {
+            slider.value = targetValue;
+            adjustBackground(targetValue);
+        }
+    }
+
+    slider.addEventListener('input', function() {
+        setCookie('dimmerValue', this.value, 7); // Speichere den neuen Wert in den Cookies
+    });
+});
+
+function adjustBackground(value) {
+    var hexValue = parseInt(value).toString(16);
+    hexValue = hexValue.length < 2 ? '0' + hexValue : hexValue;
+    var bgColor = '#' + hexValue + hexValue + hexValue;
+    document.body.style.backgroundColor = bgColor;
+
+    var textColor = parseInt(value) < 128 ? '#ffffff' : '#000000';
+    var textElements = document.querySelectorAll('.dynamic-text');
+    textElements.forEach(function(element) {
+        element.style.color = textColor;
+    });
+}
+
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+</script>
+</head>
+<body>
+<div id="toast"></div>
+<table>
+    <tr>
+        <td>
+            
+            <div class="color-info dynamic-text">
+            <h1>Farbpalette Phantomcrew</h1>
+            </div>
+            <p>
+<script>
+function luminance(r, g, b) {
+    var a = [r, g, b].map(function(v) {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+// In der Initialisierung der Webseite
+document.addEventListener('DOMContentLoaded', function() {
+    const toast = document.getElementById("toast");
+    toast.style.backgroundColor = '#FFFFFF'; // Standardhintergrundfarbe setzen
+});
+var selectedColor = '';
+function copyToClipboard(hex, color) {
+    navigator.clipboard.writeText(hex);
+    selectedColor = hex; // Speichert die Hex-Farbe in der globalen Variable
+    showToast(color, hex);
+}
+
+function showToast(color, hex) {
+    const toast = document.getElementById("toast");
+    toast.textContent = "Kopiert: " + hex;
+    toast.style.backgroundColor = color;
+    // Berechnet, ob der Text weiß oder schwarz sein sollte
+    const rgb = color.match(/\w\w/g).map(x => parseInt(x, 16));
+    const brightness = luminance(rgb[0], rgb[1], rgb[2]);
+    toast.style.color = (brightness < 0.5) ? '#FFF' : '#333';
+    toast.className = "show";
+    setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+}
+
+// Funktion zum Einfügen der Farbe in das Textfeld
+function pasteColor() {
+    var textField = document.getElementById('pasteTextField'); // ID des Textfelds, das hinzugefügt werden muss
+    textField.value = selectedColor; // Setzt den Wert des Textfelds auf die ausgewählte Farbe
+} 
+
+function adjustBackground(value) {
+    var hexValue = parseInt(value).toString(16);
+    hexValue = hexValue.length < 2 ? '0' + hexValue : hexValue;
+    var bgColor = '#' + hexValue + hexValue + hexValue;
+    document.body.style.backgroundColor = bgColor;
+    
+    // Invertiere die Textfarbe basierend auf dem Sliderwert
+    var textColor = parseInt(value) < 128 ? '#ffffff' : '#000000'; // Wechselt bei weniger als 50% zu weißem Text
+    var textElements = document.querySelectorAll('.dynamic-text');
+    textElements.forEach(function(element) {
+        element.style.color = textColor;
+    });
+}
+
+</script>
+
+<div class="color-info dynamic-text">
+    <div class="section">
+    <h2>Primäre Farben</h2>
+    <div class="color">
+        <div onclick="copyToClipboard('#000436', 'Nachtblau')" class="color-circle" style="background-color: #000436;"></div>
+        <div class="color-info">
+            Hex: #000436<br>
+            RGB: 0, 4, 54<br>
+             Nachtblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#FF5050', 'Feuerrot')" class="color-circle" style="background-color: #FF5050;"></div>
+        <div class="color-info">
+            Hex: #FF5050<br>
+            RGB: 255, 80, 80<br>
+             Feuerrot
+        </div>
+    </div>
+</div>
+
+
+<div class="section">
+    <h2>Schattierung</h2>
+    <div class="color">
+        <div onclick="copyToClipboard('#431515', 'Tiefrot')" class="color-circle" style="background-color: #431515;"></div>
+        <div class="color-info">
+            Hex: #431515<br>
+            RGB: 67, 21, 21<br>
+             Tiefrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#651F1F', 'Dunkelrot')" class="color-circle" style="background-color: #651F1F;"></div>
+        <div class="color-info">
+            Hex: #651F1F<br>
+            RGB: 101, 31, 31<br>
+             Dunkelrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#872A2A', 'Rubinrot')" class="color-circle" style="background-color: #872A2A;"></div>
+        <div class="color-info">
+            Hex: #872A2A<br>
+            RGB: 135, 42, 42<br>
+             Rubinrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#CB3F3F', 'Hellrot')" class="color-circle" style="background-color: #CB3F3F;"></div>
+        <div class="color-info">
+            Hex: #CB3F3F<br>
+            RGB: 203, 63, 63<br>
+             Hellrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#D44242', 'Leuchtrot')" class="color-circle" style="background-color: #D44242;"></div>
+        <div class="color-info">
+            Hex: #D44242<br>
+            RGB: 212, 66, 66<br>
+             Leuchtrot
+        </div>
+    </div>
+    
+    <div class="color">
+        <div onclick="copyToClipboard('#151843', 'Tiefblau')" class="color-circle" style="background-color: #151843;"></div>
+        <div class="color-info">
+            Hex: #151843<br>
+            RGB: 21, 24, 67<br>
+             Tiefblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#1F2465', 'Dunkelblau')" class="color-circle" style="background-color: #1F2465;"></div>
+        <div class="color-info">
+            Hex: #1F2465<br>
+            RGB: 31, 36, 101<br>
+             Dunkelblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#2A3087', 'Königsblau')" class="color-circle" style="background-color: #2A3087;"></div>
+        <div class="color-info">
+            Hex: #2A3087<br>
+            RGB: 42, 48, 135<br>
+             Königsblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#3F48CB', 'Hellblau')" class="color-circle" style="background-color: #3F48CB;"></div>
+        <div class="color-info">
+            Hex: #3F48CB<br>
+            RGB: 63, 72, 203<br>
+             Hellblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#424BD4', 'Leuchtblau')" class="color-circle" style="background-color: #424BD4;"></div>
+        <div class="color-info">
+            Hex: #424BD4<br>
+            RGB: 66, 75, 212<br>
+             Leuchtblau
+        </div>
+    </div>
+</div>
+
+
+<div class="section">
+    <h2>Monochromatische Abstufungen</h2>
+    <div class="color">
+        <div onclick="copyToClipboard('#101560', 'Mitternachtsblau')" class="color-circle" style="background-color: #101560;"></div>
+        <div class="color-info">
+            Hex: #101560<br>
+            RGB: 16, 21, 96<br>
+             Mitternachtsblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#2E348B', 'Königsblau')" class="color-circle" style="background-color: #2E348B;"></div>
+        <div class="color-info">
+            Hex: #2E348B<br>
+            RGB: 46, 52, 139<br>
+             Königsblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#5B61B5', 'Himmelsblau')" class="color-circle" style="background-color: #5B61B5;"></div>
+        <div class="color-info">
+            Hex: #5B61B5<br>
+            RGB: 91, 97, 181<br>
+             Himmelsblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#959AE0', 'Nebelblau')" class="color-circle" style="background-color: #959AE0;"></div>
+        <div class="color-info">
+            Hex: #959AE0<br>
+            RGB: 149, 154, 224<br>
+             Nebelblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#D4D7FF', 'Frostblau')" class="color-circle" style="background-color: #D4D7FF;"></div>
+        <div class="color-info">
+            Hex: #D4D7FF<br>
+            RGB: 212, 215, 255<br>
+             Frostblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#D56565', 'Korallenrot')" class="color-circle" style="background-color: #D56565;"></div>
+        <div class="color-info">
+            Hex: #D56565<br>
+            RGB: 213, 101, 101<br>
+             Korallenrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#AA6D6D', 'Rostrot')" class="color-circle" style="background-color: #AA6D6D;"></div>
+        <div class="color-info">
+            Hex: #AA6D6D<br>
+            RGB: 170, 109, 109<br>
+             Rostrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#806767', 'Erdrot')" class="color-circle" style="background-color: #806767;"></div>
+        <div class="color-info">
+            Hex: #806767<br>
+            RGB: 128, 103, 103<br>
+             Erdrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#554646', 'Dunkelerde')" class="color-circle" style="background-color: #554646;"></div>
+        <div class="color-info">
+            Hex: #554646<br>
+            RGB: 85, 70, 70<br>
+             Dunkelerde
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#332121', 'Schattenbraun')" class="color-circle" style="background-color: #332121;"></div>
+        <div class="color-info">
+            Hex: #332121<br>
+            RGB: 51, 33, 33<br>
+             Schattenbraun
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Komplementär</h2>
+    <div class="color">
+        <div onclick="copyToClipboard('#1D2375', 'Tiefblau')" class="color-circle" style="background-color: #1D2375;"></div>
+        <div class="color-info">
+            Hex: #1D2375<br>
+            RGB: 29, 35, 117<br>
+             Tiefblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#5B61B5', 'Himmelsblau')" class="color-circle" style="background-color: #5B61B5;"></div>
+        <div class="color-info">
+            Hex: #5B61B5<br>
+            RGB: 91, 97, 181<br>
+             Himmelsblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#E0D095', 'Sandgelb')" class="color-circle" style="background-color: #E0D095;"></div>
+        <div class="color-info">
+            Hex: #E0D095<br>
+            RGB: 224, 208, 149<br>
+            Sandgelb
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#8B772E', 'Goldbraun')" class="color-circle" style="background-color: #8B772E;"></div>
+        <div class="color-info">
+            Hex: #8B772E<br>
+            RGB: 139, 119, 46<br>
+             Goldbraun
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#362A00', 'Dunkelbraun')" class="color-circle" style="background-color: #362A00;"></div>
+        <div class="color-info">
+            Hex: #362A00<br>
+            RGB: 54, 42, 0<br>
+             Dunkelbraun
+        </div>
+    </div>
+<div class="color">
+        <div onclick="copyToClipboard('#BF6B6B', 'Rosarot')" class="color-circle" style="background-color: #BF6B6B;"></div>
+        <div class="color-info">
+            Hex: #BF6B6B<br>
+            RGB: 191, 107, 107<br>
+            Rosarot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#806767', 'Erdrot')" class="color-circle" style="background-color: #806767;"></div>
+        <div class="color-info">
+            Hex: #806767<br>
+            RGB: 128, 103, 103<br>
+            Erdrot
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#46554A', 'Moosgrau')" class="color-circle" style="background-color: #46554A;"></div>
+        <div class="color-info">
+            Hex: #46554A<br>
+            RGB: 70, 85, 74<br>
+            Moosgrau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#6DAA7F', 'Laubgrün')" class="color-circle" style="background-color: #6DAA7F;"></div>
+        <div class="color-info">
+            Hex: #6DAA7F<br>
+            RGB: 109, 170, 127<br>
+            Laubgrün
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#4FFF81', 'Frühlingsgrün')" class="color-circle" style="background-color: #4FFF81;"></div>
+        <div class="color-info">
+            Hex: #4FFF81<br>
+            RGB: 79, 255, 129<br>
+            Frühlingsgrün
+        </div>
+    </div>
+</div>
+<div class="section">
+    <h2>Triade</h2>
+    <div class="color">
+        <div onclick="copyToClipboard('#88FF4F', 'Leuchtgrün')" class="color-circle" style="background-color: #88FF4F;"></div>
+        <div class="color-info">
+            Hex: #88FF4F<br>
+            RGB: 136, 255, 79<br>
+            Leuchtgrün
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#88FF4F', 'Neongrün')" class="color-circle" style="background-color: #88FF4F;"></div>
+        <div class="color-info">
+            Hex: #88FF4F<br>
+            RGB: 136, 255, 79<br>
+            Neongrün
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#AA806D', 'Sandbraun')" class="color-circle" style="background-color: #AA806D;"></div>
+        <div class="color-info">
+            Hex: #AA806D<br>
+            RGB: 170, 128, 109<br>
+            Sandbraun
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#676980', 'Dämmergrau')" class="color-circle" style="background-color: #676980;"></div>
+        <div class="color-info">
+            Hex: #676980<br>
+            RGB: 103, 105, 128<br>
+            Dämmergrau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#6F8067', 'Feldgrün')" class="color-circle" style="background-color: #6F8067;"></div>
+        <div class="color-info">
+            Hex: #6F8067<br>
+            RGB: 111, 128, 103<br>
+            Feldgrün
+        </div>
+    </div>
+ <div class="color">
+        <div onclick="copyToClipboard('#D4D242', 'Zitronengelb')" class="color-circle" style="background-color: #D4D242;"></div>
+        <div class="color-info">
+            Hex: #D4D242<br>
+            RGB: 212, 210, 66<br>
+            Zitronengelb
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#429BD4', 'Himmelblau')" class="color-circle" style="background-color: #429BD4;"></div>
+        <div class="color-info">
+            Hex: #429BD4<br>
+            RGB: 66, 155, 212<br>
+            Himmelblau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#516D7F', 'Stahlgrau')" class="color-circle" style="background-color: #516D7F;"></div>
+        <div class="color-info">
+            Hex: #516D7F<br>
+            RGB: 81, 109, 127<br>
+            Stahlgrau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#545444', 'Olivgrau')" class="color-circle" style="background-color: #545444;"></div>
+        <div class="color-info">
+            Hex: #545444<br>
+            RGB: 84, 84, 68<br>
+            Olivgrau
+        </div>
+    </div>
+    <div class="color">
+        <div onclick="copyToClipboard('#544444', 'Mahagoni')" class="color-circle" style="background-color: #544444;"></div>
+        <div class="color-info">
+            Hex: #544444<br>
+            RGB: 84, 68, 68<br>
+            Mahagoni
+        </div>
+    </div>
+</div>
+
+
+    </div>
+
+    <div class="color-info dynamic-text">
+        <h2>Hintergrund Dimmer</h2>
+        <input type="range" id="bg-dimmer" min="0" max="255" value="255" oninput="adjustBackground(this.value)" style="width: 90%;">
+    </div>
+</div>
+
+
+</p>
+        </td>
+        <td>
+<style>
+    #svgPreviewContainer {
+        text-align: right; /* Rechtsbündige Ausrichtung aller Inhalte im Container */
+    }
+    /* Zusätzliche Anpassung, um auch alle Kinder-Elemente rechtsbündig zu machen */
+#svgPreviewContainer > * {
+        text-align: right;
+        overflow: visible;
+    }
+</style>
+
+<div class="color-info dynamic-text">
+  <h1>SVG Color</h1>
+</div>
+<p>
+<div class="color-info dynamic-text">
+  <input type="file" id="svgInput" accept=".svg"> <br><br>
+  <div id="colorList"></div>
+<button id="downloadSvg">Download SVG</button>
+<button id="downloadPng">Download PNG</button>
+  <button id="resetZoom">Reset Zoom</button>
+<label for="multiplierInput">Export Res.</label>
+<input type="text" id="multiplierInput" value="2.5">
+  <input type="range" min="25" max="400" value="100" id="zoomRange" style="width: 90%;">
+
+
+<div id="svgPreviewContainer" style=" margin-top: 20px; position: absolute; z-index: -1; left: 45%; top: 32%;">
+  <svg id="svgWrapper" style="max-width: 200%; max-height: 100%;"></svg>
+</div>
+
+</div>
+
+<script>
+document.getElementById('resetZoom').addEventListener('click', function() {
+    const svgWrapper = document.getElementById('svgWrapper');
+    const zoomRange = document.getElementById('zoomRange');
+
+    // Setze den Zoom-Slider auf den Anfangswert zurück
+    zoomRange.value = 100; // Angenommen, 100 ist der Startwert
+    // Aktualisiere das SVG-Element entsprechend
+    svgWrapper.style.transform = 'scale(1)';
+});
+
+  document.getElementById('svgInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const svgContent = e.target.result;
+      document.getElementById('svgWrapper').innerHTML = svgContent;
+      adjustSvgSize();
+      extractAndUpdateColors();
+    };
+    reader.readAsText(file);
+  });
+
+  // Schieberegler-Eventlistener
+  document.getElementById('zoomRange').addEventListener('input', function() {
+    const zoomValue = this.value;
+    const svgWrapper = document.getElementById('svgWrapper');
+    svgWrapper.style.transform = `scale(${zoomValue / 100})`;
+  });
+
+  function adjustSvgSize() {
+    const svgWrapper = document.getElementById('svgWrapper');
+    const svg = svgWrapper.querySelector('svg');
+    const boundingBox = svg.getBBox();
+    svgWrapper.setAttribute('width', boundingBox.width);
+    svgWrapper.setAttribute('height', boundingBox.height);
+  }
+
+function extractAndUpdateColors() {
+    const svg = document.getElementById('svgWrapper');
+    if (!svg) return;
+
+    const allElements = svg.querySelectorAll('*');
+    let colors = new Set();
+    allElements.forEach(el => {
+        extractColorFromAttribute(el, 'fill', colors);
+        extractColorFromAttribute(el, 'stroke', colors); // Unterstützung für stroke
+        extractColorFromStyle(el, 'fill', colors);
+        extractColorFromStyle(el, 'stroke', colors); // Unterstützung für stroke im style
+        extractColorFromStyle(el, 'outline-color', colors);
+    });
+
+    updateColorList(colors);
+}
+
+function extractColorFromAttribute(element, attribute, colorSet) {
+    const color = element.getAttribute(attribute);
+    if (isValidColor(color)) {
+        addColor(colorSet, color);
+    }
+}
+
+function extractColorFromStyle(element, styleProp, colorSet) {
+    const style = element.getAttribute('style');
+    if (style) {
+        const styleRegex = new RegExp(`${styleProp}:\\s*(.*?)(;|$)`, 'i');
+        const match = style.match(styleRegex);
+        if (match && isValidColor(match[1].trim())) {
+            addColor(colorSet, match[1].trim());
+        }
+    }
+}
+
+function isValidColor(color) {
+    // Prüft, ob der Wert eine gültige Farbe und nicht eine URL oder andere ungültige Eingabe ist
+    return color && !color.includes('url(') && (color.startsWith('#') || color.startsWith('rgb') || color.startsWith('hsl') || /^[a-zA-Z]+$/.test(color));
+}
+
+function addColor(colors, color) {
+    if (color.toLowerCase() === 'black') {
+        colors.add('#000000');
+    } else if (color.startsWith('rgb') || color.startsWith('hsl')) {
+        color = cssColorToHex(color);
+    }
+    colors.add(color);
+}
+
+function cssColorToHex(color) {
+    if (color.startsWith('rgb')) {
+        let rgba = color.match(/\d+/g);
+        return `#${rgba.slice(0, 3).map(x => parseInt(x).toString(16).padStart(2, '0')).join('')}`;
+    } else if (color.startsWith('hsl')) {
+        // Konvertiere HSL zu Hex hier, falls erforderlich
+        return color; // Implementieren Sie die tatsächliche Konvertierung, falls HSL unterstützt werden soll
+    }
+    return color;
+}
+function updateColorList(colors) {
+    const colorListElement = document.getElementById('colorList');
+    colorListElement.innerHTML = '';
+
+    colors.forEach(color => {
+        const colorItem = document.createElement('div');
+        colorItem.className = 'color-item';
+
+        const colorInput = document.createElement('input');
+        colorInput.type = 'color';
+        colorInput.value = normalizeColor(color);
+        colorInput.onchange = () => updateColor(color, colorInput.value);
+
+        const textInput = document.createElement('input');
+        textInput.type = 'text';
+        textInput.value = color;
+        textInput.className = 'hexInput'; // Zuweisen der neuen CSS-Klasse
+        textInput.onchange = () => updateColor(color, textInput.value);
+
+        const pasteButton = document.createElement('button');
+        pasteButton.textContent = 'Paste';
+        pasteButton.onclick = () => {
+            textInput.value = selectedColor; // Nutzt die globale Variable `selectedColor`
+            updateColor(color, selectedColor); // Aktualisiert die SVG-Farben
+        };
+
+        colorItem.appendChild(colorInput);
+        colorItem.appendChild(textInput);
+        colorItem.appendChild(pasteButton);
+
+        colorListElement.appendChild(colorItem);
+    });
+}
+
+
+
+function updateColor(oldColor, newColor) {
+    const svg = document.getElementById('svgWrapper').querySelector('svg');
+    if (!svg) return;
+
+    updateSvgStyles(svg, oldColor, newColor); // Funktion zum Aktualisieren der Farben in CSS-Regeln
+
+    const allElements = svg.querySelectorAll('*');
+    allElements.forEach(el => {
+        updateSvgColor(el, 'fill', oldColor, newColor);
+        updateSvgColor(el, 'stroke', oldColor, newColor);
+    });
+
+    extractAndUpdateColors();
+}
+
+function updateSvgColor(element, attribute, oldColor, newColor) {
+    if (element.getAttribute(attribute) === oldColor) {
+        element.setAttribute(attribute, newColor);
+    }
+
+    const style = element.getAttribute('style');
+    if (style) {
+        let newStyle = style.replace(new RegExp(`${attribute}:${oldColor}`, 'gi'), `${attribute}:${newColor}`);
+        element.setAttribute('style', newStyle);
+    }
+}
+
+function updateSvgStyles(svg, oldColor, newColor) {
+    const styles = svg.querySelectorAll('style');
+    styles.forEach(style => {
+        let cssText = style.innerHTML;
+        cssText = cssText.replace(new RegExp(oldColor, 'gi'), newColor);
+        style.innerHTML = cssText;
+    });
+}
+
+function normalizeColor(color) {
+    return color.startsWith('#') && color.length > 7 ? color.slice(0, 7) : color;
+}
+
+document.getElementById('svgInput').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const svgContent = e.target.result;
+    document.getElementById('svgWrapper').innerHTML = svgContent;
+    updateDownloadLinkName(file.name);
+  };
+  reader.readAsText(file);
+});
+
+function updateDownloadLinkName(originalFileName) {
+  const baseName = originalFileName.slice(0, originalFileName.lastIndexOf('.')) || originalFileName;
+  document.getElementById('downloadSvg').setAttribute('data-download-name', `${baseName}_modified.svg`);
+  document.getElementById('downloadPng').setAttribute('data-download-name', `${baseName}_modified.png`);
+}
+function convertSvgToPng(svgElementId, pngFileName, multiplier) {
+    const svgElement = document.getElementById(svgElementId).querySelector('svg');
+    if (!svgElement) {
+        console.error('SVG element not found!');
+        return;
+    }
+
+    // Serialize SVG to well-formed XML string
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(svgElement);
+    const svgBlob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    const URLObject = window.URL || window.webkitURL;
+    img.src = URLObject.createObjectURL(svgBlob);
+
+    img.onload = function() {
+        // Ensure the dimensions are set correctly according to the SVG's own attributes
+        var svgWidth = svgElement.viewBox.baseVal.width || svgElement.width.baseVal.value;
+        var svgHeight = svgElement.viewBox.baseVal.height || svgElement.height.baseVal.value;
+
+        canvas.width = svgWidth * multiplier;
+        canvas.height = svgHeight * multiplier;
+
+        // Scale the drawing context to match the multiplier
+        ctx.scale(multiplier, multiplier);
+
+        // Draw the image onto the canvas
+        ctx.drawImage(img, 0, 0, svgWidth, svgHeight);
+
+        // Convert the canvas content to a PNG blob
+        canvas.toBlob(function(blob) {
+            const pngUrl = URL.createObjectURL(blob);
+
+            // Create a temporary download link and trigger the download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pngUrl;
+            downloadLink.download = pngFileName;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            // Clean up
+            URL.revokeObjectURL(pngUrl);
+            URL.revokeObjectURL(img.src);
+            document.body.removeChild(canvas);
+        }, 'image/png');
+    };
+
+    img.onerror = function() {
+        console.error('Failed to load the image for conversion.');
+    };
+}
+
+var originalSvgContent = null;  // Hier wird der ursprüngliche Inhalt des SVGs gespeichert
+
+document.addEventListener('DOMContentLoaded', function() {
+    var svgWrapper = document.getElementById('svgWrapper');
+    if (svgWrapper) {
+        originalSvgContent = svgWrapper.innerHTML;  // Speichere den initialen Zustand, sobald das Dokument geladen ist
+    }
+
+    // Event Listener für die Dateiauswahl
+    document.getElementById('svgInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            svgWrapper.innerHTML = e.target.result;
+            originalSvgContent = svgWrapper.innerHTML;  // Aktualisiere den ursprünglichen Zustand nach dem Laden einer neuen SVG
+            extractAndUpdateColors();
+        };
+        reader.readAsText(file);
+    });
+});
+
+// Event Listener für Rückgängig-Machen mit Strg + Z
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 'z') {
+        if (originalSvgContent) {
+            document.getElementById('svgWrapper').innerHTML = originalSvgContent;
+            extractAndUpdateColors(); // Aktualisiere die Farbinformationen nach dem Zurücksetzen
+        }
+        event.preventDefault();  // Verhindere das Standardverhalten von Strg + Z
+    }
+});
+
+
+document.getElementById('downloadPng').addEventListener('click', function() {
+    const svgElementId = 'svgWrapper'; // Die ID Ihres SVG-Elements
+    const multiplierInput = document.getElementById('multiplierInput'); // Das neue Texteingabefeld für den Multiplikator
+    const multiplier = parseFloat(multiplierInput.value.replace(',', '.')) || 2.5; // Ersetzt Kommas durch Punkte und liest den Wert aus dem Feld
+    const pngFileName = this.getAttribute('data-download-name') || 'default_filename.png';
+    convertSvgToPng(svgElementId, pngFileName, multiplier);
+});
+
+document.getElementById('multiplierInput').addEventListener('blur', function() {
+    this.value = this.value.replace(',', '.'); // Ersetzt Kommas durch Punkte, wenn das Feld den Fokus verliert
+});
+
+
+
+
+document.getElementById('downloadSvg').addEventListener('click', function() {
+  const svgElement = document.getElementById('svgWrapper').innerHTML;
+  const blob = new Blob([svgElement], {type: 'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const downloadLink = document.createElement('a');
+  downloadLink.href = url;
+  downloadLink.download = this.getAttribute('data-download-name');
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+  URL.revokeObjectURL(url);
+});
+
+
+
+
+</script>
+
+</p>
+        </td>
+    </tr>
+    <td>
+
+<style>
+    #shapes {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 200px;
+    }
+    .shape {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+    #triangle {
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 100px solid;
+    }
+    #rectangle {
+        width: 100px;
+        height: 100px;
+    }
+
+    #star {
+        margin: 50px;
+        clip-path: polygon(
+            50% 0%, 61% 35%, 98% 35%,
+            68% 57%, 79% 91%, 50% 70%,
+            21% 91%, 32% 57%, 2% 35%,
+            39% 35%
+        );
+        background-color: inherit;
+    }
+</style>
+<script>
+function luminance(r, g, b) {
+    var a = [r, g, b].map(function (v) {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+
+function contrast(rgb1, rgb2) {
+    var lum1 = luminance(rgb1[0], rgb1[1], rgb1[2]);
+    var lum2 = luminance(rgb2[0], rgb2[1], rgb2[2]);
+    var brightest = Math.max(lum1, lum2);
+    var darkest = Math.min(lum1, lum2);
+    return (brightest + 0.05) / (darkest + 0.05);
+}
+
+function hexToRgb(hex) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+    return [r, g, b];
+}
+
+function updateContrast() {
+    var color1 = document.getElementById('color1').value;
+    var color2 = document.getElementById('color2').value;
+    var rgb1 = hexToRgb(color1);
+    var rgb2 = hexToRgb(color2);
+    var contrastRatio = contrast(rgb1, rgb2);
+    document.getElementById('result').textContent = 'Kontrastverhältnis: ' + contrastRatio.toFixed(2) + ':1';
+    
+    // Symbole einfügen basierend auf dem Kontrastverhältnis
+var iconContainer = document.getElementById('iconContainer');
+iconContainer.innerHTML = ''; // Zurücksetzen der Symbole
+
+if (contrastRatio >= 4.5) {
+    var checkmarkSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    checkmarkSvg.setAttribute("width", "24");
+    checkmarkSvg.setAttribute("height", "24");
+    checkmarkSvg.setAttribute("viewBox", "0 0 24 24");
+    
+    var checkmarkPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    checkmarkPath.setAttribute("fill", "green");
+    checkmarkPath.setAttribute("d", "M20 6.7L8.5 18.2 4 13.7l-1.4 1.4 5.9 5.8L21.4 8z");
+    
+    checkmarkSvg.appendChild(checkmarkPath);
+    iconContainer.appendChild(checkmarkSvg);
+    
+    var checkmarkText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    checkmarkText.setAttribute("x", "0");
+    checkmarkText.setAttribute("y", "20");
+    checkmarkText.setAttribute("fill", "green");
+    checkmarkText.textContent = "ausreichend";
+    iconContainer.appendChild(checkmarkText);
+} else {
+    var stopSignSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    stopSignSvg.setAttribute("width", "24");
+    stopSignSvg.setAttribute("height", "24");
+    stopSignSvg.setAttribute("viewBox", "0 0 24 24");
+    
+    var stopSignPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    stopSignPath.setAttribute("fill", "red");
+    stopSignPath.setAttribute("d", "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM9 8h6v2H9zm0 3h6v5H9z");
+    
+    stopSignSvg.appendChild(stopSignPath);
+    iconContainer.appendChild(stopSignSvg);
+    
+    var stopSignText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    stopSignText.setAttribute("x", "0");
+    stopSignText.setAttribute("y", "22");
+    stopSignText.setAttribute("fill", "red");
+    stopSignText.textContent = "ungenügend";
+    iconContainer.appendChild(stopSignText);
+}
+
+
+
+
+    updateColors(color1, color2);
+}
+
+function updateColors(color1, color2) {
+    document.getElementById('textSample').style.color = color1;
+    document.getElementById('backgroundSample').style.backgroundColor = color2;
+    document.getElementById('triangle').style.borderBottomColor = color1;
+    document.getElementById('rectangle').style.backgroundColor = color1;
+    document.getElementById('star').style.backgroundColor = color1;
+}
+</script>
+
+<div class="color-info dynamic-text">
+    <h2>Kontrastverhältnis-Rechner für Farben</h2>
+    <p>Geben Sie zwei Hex-Farben ein, um das Kontrastverhältnis zu berechnen:</p>
+    <input type="text" id="color1" value="#ffffff" placeholder="Erste Farbe (z.B. #ffffff)">
+    <input type="text" id="color2" value="#000000" placeholder="Zweite Farbe (z.B. #000000)">
+    <button onclick="updateContrast()">Berechnen</button>
+    <p id="result"></p>
+    <div id="iconContainer"></div> <!-- Container für Symbole -->
+
+    <h3>Visuelle Darstellung:</h3>
+    <div id="backgroundSample" style="padding: 20px;">
+        <p id="textSample" style="font-size: 26px; font-family: source-serif-pro,serif">Ein starker Farbkontrast verbessert die Lesbarkeit und unterstützt die visuelle Wahrnehmung. </p>
+        <div id="shapes">
+            <div id="triangle" class="shape"></div>
+            <div id="rectangle" class="shape"></div>
+            <div id="star" class="shape"></div>
+        </div>
+    </div>
+</div>
+
+    </td>
+</table>
+
+</body>
+</html>
+
