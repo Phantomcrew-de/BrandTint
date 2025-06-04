@@ -46,6 +46,10 @@
 
 ---
 
+### 🖼️ Interface Preview
+
+![Preview](preview.png) <!-- Replace with a real screenshot -->
+
 ### 🧠 Credits
 
 Originally developed for **Phantomcrew**'s corporate identity needs, now open for your adaptation.
