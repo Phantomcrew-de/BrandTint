@@ -49,9 +49,9 @@
 ### 🖼️ Interface Preview
 
 
-[Example 1: BrandTint ](colorizesvgpallet_Phantom_full.html) File: `colorizesvgpallet_Phantom_full.html` 
+[Example 1: BrandTint ](https://phantomcrew-de.github.io/BrandTint/colorizesvgpallet_Phantom_full.html) File: `colorizesvgpallet_Phantom_full.html` 
 
-[Example 2: ColorPalette](Farbpalette.html) File: `Farbpalette.html`
+[Example 2: ColorPalette](https://phantomcrew-de.github.io/BrandTint/Farbpalette.html) File: `Farbpalette.html`
 
 ![Preview](preview.png) <!-- Replace with a real screenshot -->
 
