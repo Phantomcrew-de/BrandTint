@@ -69,3 +69,4 @@ You are free to use, modify, and distribute it — as long as you share your cha
 ### 🤝 Author
 
 Made with ❤️ by Julius – [phantomcrew.de](https://phantomcrew.de/)
+<br><br><a href="https://www.buymeacoffee.com/phantomcrew" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
